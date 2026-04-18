@@ -22,13 +22,3 @@ export const COLORS = {
 } as const;
 
 export const BOARD_SIZE = 6;
-
-export const TABLE = [
-  ["Wr", "Wn", "Wb", "Wq", "Wk", "Wb", "Wn", "Wr"],
-  ["Wp", "Wp", "Wp", "Wp", "Wp", "Wp", "Wp", "Wp"],
-  ["", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", ""],
-  ["Bp", "Bp", "Bp", "Bp", "Bp", "Bp", "Bp", "Bp"],
-  ["Br", "Bn", "Bb", "Bk", "Bq", "Bb", "Bn", "Br"],
-];
