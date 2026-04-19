@@ -1,8 +1,8 @@
 import { BOARD_SIZE } from "@/constants/Figures";
 import { PieceIcon } from "./PieceIcon";
-import { Piece } from "@/app/page";
-import { useSelectedSquare } from "@/store";
+import { useChessStore } from "@/store";
 import cn from "clsx";
+import { Piece } from "@/types/Board.types";
 
 interface Props {
   type: Piece;
@@ -11,12 +11,28 @@ interface Props {
 }
 
 export function Cell({ type, row, cols }: Props) {
-  const { r, c, setSquareData, whichPiece } = useSelectedSquare();
+  const { setSelectedSquare, selectedSquare, movePiece, turn } =
+    useChessStore();
 
-  const isSelected = c === cols && r === row;
+  const isSelected = selectedSquare?.c === cols && selectedSquare?.r === row;
   const isEven = (row + cols) % 2 === 0;
 
-  console.log(r, c, whichPiece);
+  const handleClick = () => {
+    if (
+      selectedSquare &&
+      (selectedSquare.c !== cols || selectedSquare.r !== row)
+    ) {
+      movePiece(row, cols);
+    } else if (type !== "") {
+      const pieceColor = type[0];
+
+      if (pieceColor === turn) {
+        setSelectedSquare(cols, row);
+      } else {
+        console.log(`It's ${turn}'s turn!`);
+      }
+    }
+  };
 
   return (
     <div
@@ -26,7 +42,9 @@ export function Cell({ type, row, cols }: Props) {
         isSelected ? "bg-red-500" : isEven ? "bg-black/50" : "bg-white/50",
       )}
       style={{ width: `${BOARD_SIZE}rem`, height: `${BOARD_SIZE}rem` }}
-      onClick={() => setSquareData(cols, row, type)}
+      onClick={() => {
+        handleClick();
+      }}
     >
       <PieceIcon type={type} />
     </div>

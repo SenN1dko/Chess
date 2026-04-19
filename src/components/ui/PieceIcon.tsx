@@ -29,7 +29,7 @@ export function PieceIcon({ type }: Props) {
       return <ChessKing fill="white" className="text-white" />;
     case "Bk":
       return <ChessKing fill="black" className="text-black " />;
-    case "Wq":
+    case "Wq":                                                                         
       return <ChessQueen fill="white" className="text-white" />;
     case "Bq":
       return <ChessQueen fill="black" className="text-black" />;
