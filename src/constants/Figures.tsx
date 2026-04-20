@@ -4,7 +4,7 @@ export const PIECE_VALUES = {
   BISHOP: 3,
   ROOK: 5,
   QUEEN: 9,
-  KING: 0, // King has no numerical value as it cannot be captured
+  KING: 0,
 } as const;
 
 export const PIECE_TYPES = {

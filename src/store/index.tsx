@@ -1,14 +1,12 @@
 import { Board } from "@/types/Board.types";
 import { create } from "zustand";
-import { knightMoves } from "@/logic/figuresPermittedMoves";
+import { knightMoves, pawnMoves } from "@/logic/figuresPermittedMoves";
 interface IChessStore {
   Board: Board;
   legalMoves: { r: number; c: number }[];
   turn: "B" | "W";
   selectedSquare: { r: number; c: number } | null;
-  // selectedSquareTo: { r: number; c: number } | null;
   setSelectedSquare: (r: number, c: number) => void;
-  // setSelectedSquareTo: (r: number, c: number) => void;
   clearSelection: () => void;
   movePiece: (toR: number, toC: number) => void;
 }
@@ -19,13 +17,13 @@ export const useChessStore = create<IChessStore>((set, get) => ({
     ["", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", ""],
     ["Bp", "Bp", "Bp", "Bp", "Bp", "Bp", "Bp", "Bp"],
     ["Br", "Bn", "Bb", "Bk", "Bq", "Bb", "Bn", "Br"],
   ],
   turn: "W",
   legalMoves: [],
   selectedSquare: null,
-  // selectedSquareTo: null,
 
   setSelectedSquare: (C, R) => {
     const { Board } = get();
@@ -35,9 +33,11 @@ export const useChessStore = create<IChessStore>((set, get) => ({
     let moves: { r: number; c: number }[] = [];
     const type = piece[1];
     const color = piece[0] as "W" | "B";
-
     if (type === "n") {
       moves = knightMoves(R, C, Board, color);
+    } else if (type === "p") {
+      moves = pawnMoves(R, C, Board, color);
+      console.log(moves);
     }
 
     set({ selectedSquare: { r: R, c: C }, legalMoves: moves });
@@ -57,13 +57,10 @@ export const useChessStore = create<IChessStore>((set, get) => ({
       set({
         legalMoves: [],
         Board: newBoard,
-        turn: turn === "B" ? "W" : "B",
         selectedSquare: null,
+        turn: turn === "B" ? "W" : "B",
       });
     }
   },
-  // setSelectedSquareTo: (newC, newR) =>
-  //   set({ selectedSquareTo: { c: newC, r: newR } }),
-
   clearSelection: () => set({ selectedSquare: null }),
 }));

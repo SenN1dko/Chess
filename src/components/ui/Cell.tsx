@@ -11,11 +11,11 @@ interface Props {
 }
 
 export function Cell({ type, row, cols }: Props) {
-  const { setSelectedSquare, selectedSquare, movePiece, turn } =
+  const { setSelectedSquare, selectedSquare, movePiece, turn, legalMoves } =
     useChessStore();
 
   const isSelected = selectedSquare?.c === cols && selectedSquare?.r === row;
-  const isEven = (row + cols) % 2 === 0;
+  const isPossibleMove = legalMoves?.some((m) => m.r === row && m.c === cols);
 
   const handleClick = () => {
     if (
@@ -37,15 +37,20 @@ export function Cell({ type, row, cols }: Props) {
   return (
     <div
       className={cn(
-        "border border-black flex items-center justify-center transition-colors",
-
-        isSelected ? "bg-red-500" : isEven ? "bg-black/50" : "bg-white/50",
+        "border relative border-black flex items-center justify-center transition-colors",
+        (row + cols) % 2 === 0 ? "bg-black/50" : "bg-white/50",
       )}
       style={{ width: `${BOARD_SIZE}rem`, height: `${BOARD_SIZE}rem` }}
       onClick={() => {
         handleClick();
       }}
     >
+      {isSelected && (
+        <div className="absolute w-full h-full  border-2 border-red-500"></div>
+      )}
+      {isPossibleMove && (
+        <div className="absolute w-full h-full border-2 border-red-500"></div>
+      )}
       <PieceIcon type={type} />
     </div>
   );
