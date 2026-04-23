@@ -11,8 +11,14 @@ interface Props {
 }
 
 export function Cell({ type, row, cols }: Props) {
-  const { setSelectedSquare, selectedSquare, movePiece, turn, legalMoves } =
-    useChessStore();
+  const {
+    setSelectedSquare,
+    selectedSquare,
+    movePiece,
+    turn,
+    legalMoves,
+    clearSelection,
+  } = useChessStore();
 
   const isSelected = selectedSquare?.c === cols && selectedSquare?.r === row;
   const isPossibleMove = legalMoves?.some((m) => m.r === row && m.c === cols);
@@ -23,6 +29,7 @@ export function Cell({ type, row, cols }: Props) {
       (selectedSquare.c !== cols || selectedSquare.r !== row)
     ) {
       movePiece(row, cols);
+      clearSelection();
     } else if (type !== "") {
       const pieceColor = type[0];
 

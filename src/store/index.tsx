@@ -62,5 +62,5 @@ export const useChessStore = create<IChessStore>((set, get) => ({
       });
     }
   },
-  clearSelection: () => set({ selectedSquare: null }),
+  clearSelection: () => set({ selectedSquare: null, legalMoves: [] }),
 }));
